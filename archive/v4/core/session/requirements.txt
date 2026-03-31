@@ -1,0 +1,27 @@
+# SESSION v3 dependencies
+# No LangGraph - pure async orchestration
+
+# Web framework
+fastapi>=0.104.0
+uvicorn>=0.24.0
+sse-starlette>=1.8.0
+httpx>=0.25.0
+
+# Database
+asyncpg>=0.29.0
+
+# Cache
+redis>=5.0.0
+
+# Message queue
+aiokafka>=0.10.0
+
+# Validation
+pydantic>=2.5.0
+
+# Observability
+structlog>=23.2.0
+prometheus-client>=0.19.0
+
+# Docker SDK (for evaluation container management)
+docker>=6.0.0

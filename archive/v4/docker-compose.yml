@@ -1,0 +1,357 @@
+services:
+  kafka:
+    image: confluentinc/cp-kafka:7.8.0
+    container_name: alec-kafka
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+      - "9093:9093"
+    mem_limit: 768m
+    memswap_limit: 768m
+    environment:
+      # JVM heap limits - reduced for dev environment (prevents GC CPU spikes)
+      KAFKA_HEAP_OPTS: "-Xms128m -Xmx384m"
+      # KRaft mode configuration
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+
+      # Listener configuration
+      KAFKA_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://0.0.0.0:9092,CONTROLLER://kafka:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT,CONTROLLER:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+
+      # Cluster configuration
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+
+      # KRaft cluster ID (base64-encoded UUID, must be 22 chars)
+      CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
+    command: >
+      bash -c "
+      if [ ! -f /var/lib/kafka/data/meta.properties ]; then
+        echo 'Formatting Kafka storage for KRaft mode...';
+        /usr/bin/kafka-storage format -t $$CLUSTER_ID -c /etc/kafka/kafka.properties --ignore-formatted;
+      fi;
+      exec /etc/confluent/docker/run
+      "
+    volumes:
+      - kafka_data:/var/lib/kafka/data
+    networks:
+      - alec-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "kafka-topics", "--bootstrap-server", "localhost:9092", "--list"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  postgres:
+    image: pgvector/pgvector:0.8.0-pg17
+    container_name: alec-postgres
+    mem_limit: 512m
+    memswap_limit: 512m
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-alec}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-alec-dev-password}
+      POSTGRES_DB: ${POSTGRES_DB:-alec}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/init:/docker-entrypoint-initdb.d  # Auto-runs *.sql on first start
+    networks:
+      - alec-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U alec"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  redis:
+    image: redis:7-alpine
+    container_name: alec-redis
+    mem_limit: 256m
+    memswap_limit: 256m
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes --maxmemory 128mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis_data:/data
+    networks:
+      - alec-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  session:
+    build:
+      context: .
+      dockerfile: core/session/Dockerfile
+    container_name: alec-session
+    mem_limit: 512m
+    memswap_limit: 512m
+    user: root  # Required for Docker socket access
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      llm-gateway:
+        condition: service_healthy
+    ports:
+      - "8008:8008"
+    environment:
+      LLM_GATEWAY_URL: http://llm-gateway:8000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-alec}:${POSTGRES_PASSWORD:-alec-dev-password}@postgres:5432/${POSTGRES_DB:-alec}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      REDIS_URL: redis://redis:6379/0
+      USE_TOOL_SEARCH: "true"
+      UVICORN_RELOAD_FLAG: ${UVICORN_RELOAD_FLAG:---reload}
+      # CORS: Allow both localhost and 127.0.0.1 for development
+      # For AWS/production, override via .env or AWS Parameter Store
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:3001,http://localhost:3000,http://localhost:3002,http://127.0.0.1:3001,http://127.0.0.1:3000,http://127.0.0.1:3002}
+      # CSP connect-src: Allow frontend to call API
+      # For AWS/production, set to actual CloudFront/ALB URLs
+      CSP_CONNECT_SRC: ${CSP_CONNECT_SRC:-'self' http://localhost:3001 http://localhost:8008 http://127.0.0.1:3001 ws://localhost:3001 ws://127.0.0.1:3001}
+    volumes:
+      # Mount source code for hot-reload during development
+      - ./core/session:/app/core/session:ro
+      - ./core/common:/app/core/common:ro
+      # Mount Docker socket for launching evaluation containers
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8008/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - alec-network
+
+  # LLM Gateway: Centralized LLM calls for all services
+  # Note: Needs 768m for embedding model (sentence-transformers)
+  llm-gateway:
+    build:
+      context: .
+      dockerfile: core/llm_gateway/Dockerfile
+    container_name: alec-llm-gateway
+    mem_limit: 768m
+    memswap_limit: 768m
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8011:8000"
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-alec}:${POSTGRES_PASSWORD:-alec-dev-password}@postgres:5432/${POSTGRES_DB:-alec}
+      UVICORN_RELOAD_FLAG: ${UVICORN_RELOAD_FLAG:---reload}
+    volumes:
+      - ./core/llm_gateway:/app/core/llm_gateway:ro
+      - ./core/common:/app/core/common:ro
+    restart: unless-stopped
+    networks:
+      - alec-network
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health').read()\" || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # =============================================================================
+  # OLD LEARNING SERVICES (REMOVED)
+  # =============================================================================
+  # The following services have been removed as part of the learning loop refactor:
+  # - bullet-reflector (replaced by learning_loop ADVISOR)
+  # - effectiveness-reflector (replaced by learning_loop GENERATOR + CURATOR)
+  # - bullet-curator (merged into learning_loop CURATOR)
+  # - agent-curator (decommissioned)
+  # - event-persister (merged into learning_loop CURATOR)
+  #
+  # Git tag 'pre-learning-refactor-v2' preserves the old state.
+  # =============================================================================
+
+  # Learning Loop: Unified learning service (ADVISOR, GENERATOR, CURATOR, CLUSTERER)
+  # All 4 services run in a single container for simpler orchestration
+  learning-loop:
+    build:
+      context: .
+      dockerfile: core/learning_loop/Dockerfile
+    container_name: alec-learning-loop
+    mem_limit: 768m
+    memswap_limit: 768m
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      llm-gateway:
+        condition: service_healthy
+    environment:
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-alec}:${POSTGRES_PASSWORD:-alec-dev-password}@postgres:5432/${POSTGRES_DB:-alec}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      REDIS_URL: redis://redis:6379/0
+      LLM_GATEWAY_URL: http://llm-gateway:8000
+    volumes:
+      - ./core/learning_loop:/app/core/learning_loop:ro
+      - ./core/common:/app/core/common:ro
+    restart: unless-stopped
+    networks:
+      - alec-network
+
+  # Agents Service: LIBRARIAN and STRATEGIST (strategic intelligence)
+  # Event-driven service that provides macro-level analysis
+  agents:
+    build:
+      context: .
+      dockerfile: core/agents/Dockerfile
+    container_name: alec-agents
+    mem_limit: 768m
+    memswap_limit: 768m
+    depends_on:
+      postgres:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-alec}:${POSTGRES_PASSWORD:-alec-dev-password}@postgres:5432/${POSTGRES_DB:-alec}
+      KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+      REDIS_URL: redis://redis:6379/0
+    volumes:
+      - ./core/agents:/app/core/agents:ro
+      - ./core/common:/app/core/common:ro
+      - ./core/learning_loop:/app/core/learning_loop:ro
+    restart: unless-stopped
+    networks:
+      - alec-network
+
+  # =============================================================================
+  # REMOVED: librarian-batch
+  # =============================================================================
+  # The old librarian batch job has been removed. Its functionality is now
+  # handled by the agents service LIBRARIAN component (event-driven).
+  # Git tag 'pre-learning-refactor-v2' preserves the old state.
+  # =============================================================================
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: development
+    container_name: alec-frontend
+    mem_limit: 512m
+    memswap_limit: 512m
+    depends_on:
+      - session
+    ports:
+      - "3001:3001"
+    environment:
+      # Vite will proxy /api to session service
+      # Note: /curator-api and /agent-api removed (services decommissioned)
+      VITE_API_URL: ${VITE_API_URL:-http://session:8008}
+    volumes:
+      # Mount source code for hot-reload during development
+      - ./frontend:/app
+      - /app/node_modules
+    restart: unless-stopped
+    networks:
+      - alec-network
+
+  # AppWorld Evaluation: Benchmark evaluation service
+  # Image built by default, but only runs on-demand via session service Docker SDK
+  appworld-eval:
+    image: alec-appworld-eval:latest
+    build:
+      context: .
+      dockerfile: evaluation/appworld/Dockerfile
+    profiles:
+      - evaluation  # Never starts with docker-compose up, only built
+    environment:
+      - ALEC_SESSION_URL=http://session:8008
+      - DATABASE_URL=postgresql://alec:alec-dev-password@postgres:5432/alec
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./evaluation/appworld:/app
+      - ./core/common:/app/core/common:ro  # Mount core/common for hot reload
+      - ./evaluation/database:/app/database:ro  # Mount database module
+      - appworld-data:/root/.appworld
+    networks:
+      - alec-network
+
+  # Learning Loop Validation: On-demand validation service
+  # Usage: docker-compose --profile validation run --rm validation-runner validate
+  # Usage: docker-compose --profile validation run --rm validation-runner health
+  validation-runner:
+    build:
+      context: ./evaluation/validation
+      dockerfile: Dockerfile
+    environment:
+      - ALEC_SESSION_URL=http://session:8008
+      - DATABASE_URL=postgresql://alec:alec-dev-password@postgres:5432/alec
+      - REDIS_URL=redis://redis:6379/0
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      - session
+      - postgres
+      - redis
+    profiles:
+      - validation
+    networks:
+      - alec-network
+
+  # Test Runner: On-demand test execution with all dependencies
+  # Usage: docker-compose --profile test run --rm test-runner
+  # Usage: docker-compose --profile test run --rm test-runner pytest core/session -v
+  test-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile.test
+    environment:
+      - DATABASE_URL=postgresql://alec:alec-dev-password@postgres:5432/alec
+      - KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - REDIS_URL=redis://redis:6379/0
+      - PYTHONUNBUFFERED=1
+      - PYTHONPATH=/app
+    volumes:
+      - .:/app:ro
+    depends_on:
+      - postgres
+      - redis
+      - kafka
+    profiles:
+      - test
+    networks:
+      - alec-network
+
+networks:
+  alec-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  kafka_data:
+  redis_data:
+  appworld-data:

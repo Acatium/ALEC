@@ -1,0 +1,1130 @@
+ 
+ 
+Basel Committee 
+on Banking Supervision 
+ 
+ 
+ 
+ 
+ 
+Principles for effective risk 
+data aggregation and risk 
+reporting 
+ 
+ 
+ 
+ 
+ 
+ 
+January 2013 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+This publication is available on the BIS website (www.bis.org). 
+ 
+ 
+© Bank for International Settlements 2013. All rights reserved. Brief excerpts may be reproduced or 
+translated provided the source is cited. 
+ 
+ 
+ISBN 92-9131-913-9 (print) 
+ISBN 92-9197-913-9 (online) 
+ 
+Contents 
+Principles for effective risk data aggregation and risk reporting .............................................. 1 
+Introduction ............................................................................................................................ 1 
+Definition ................................................................................................................................ 2 
+Objectives .............................................................................................................................. 3 
+Scope and initial considerations ............................................................................................. 3 
+I. 
+Overarching governance and infrastructure .................................................................. 6 
+II. 
+Risk data aggregation capabilities ................................................................................ 8 
+III. 
+Risk reporting practices .............................................................................................. 11 
+IV. 
+Supervisory review, tools and cooperation .................................................................. 14 
+V. 
+Implementation timeline and transitional arrangements .............................................. 16 
+Annex 1 ............................................................................................................................... 17 
+Annex 2 ............................................................................................................................... 19 
+ 
+Task Force on SIB Supervision of the Standards Implementation Group 
+Chair: 
+Mr Fernando Vargas, Bank of Spain, Madrid 
+ 
+Australia 
+Ms Heidi Richards (APRA) 
+ 
+Canada  
+Mr James Dennison (OSFI) 
+ 
+China 
+Ms Zhangjun Wu (CBRC) 
+(from October 2012) 
+ 
+Mr Xianqiu Zhang (CBRC) 
+(until September 2012) 
+France 
+Mr Hedi Jeddi (ACP) 
+ 
+Germany 
+Mr Tobias Volk (Bundesbank) 
+ 
+ 
+Mr Stefan Iwankowski (BAFIN) 
+ 
+Hong Kong SAR 
+Mr Sunny Yung (HKMA) 
+ 
+Italy 
+Mr Angelo Carriero (BoI) 
+ 
+Japan 
+Mr Mitsutoshi Adachi (BoJ) 
+ 
+ 
+Mr Takao Miyamoto (JFSA) 
+(until June 2012) 
+ 
+Mr Yu Nishioki (JFSA) 
+(from July 2012) 
+Mexico 
+Mr Efrain Solorio (CNBV) 
+ 
+Netherlands 
+Ms Truus Stadt (DNB) 
+(from October 2012) 
+ 
+Ms Inge Veldhuis (DNB) 
+(until September 2012) 
+Spain 
+Ms Cristina Iglesias-Sarria (BoS) 
+ 
+ 
+Ms Cecilia Lozano (BoS) 
+ 
+United Kingdom 
+Ms Jill Elaine Savager(FSA) 
+ 
+ 
+Mr Ian Tower (FSA) 
+ 
+United States 
+Mr Joel Anderson (OCC 
+ 
+ 
+Ms Stacy Coleman (FRBNY) 
+ 
+ 
+Mr Kirk Odegard (FRB) 
+ 
+Financial Stability Board 
+Ms Grace Sone 
+ 
+Financial Stability Institute 
+Mr Amarendra Mohan 
+(from April 2012) 
+ 
+Mr Roland Raskopf 
+(until March 2012) 
+Secretariat 
+Mr Juan Carlos Crisanto 
+ 
+ 
+Ms Ruth Doubleday 
+(until August 2012) 
+ 
+ 
+Principles for effective risk data aggregation and risk reporting 
+Where is the wisdom we have lost in knowledge? 
+Where is the knowledge we have lost in information? 
+ 
+T. S. Eliot. The Rock (1934) 
+Introduction 
+1. 
+One of the most significant lessons learned from the global financial crisis that 
+began in 2007 was that banks’ information technology (IT) and data architectures were 
+inadequate to support the broad management of financial risks. Many banks lacked the 
+ability to aggregate risk exposures and identify concentrations quickly and accurately at the 
+bank group level, across business lines and between legal entities. Some banks were unable 
+to manage their risks properly because of weak risk data aggregation capabilities and risk 
+reporting practices. This had severe consequences to the banks themselves and to the 
+stability of the financial system as a whole. 
+2. 
+In response, the Basel Committee issued supplemental Pillar 2 (supervisory review 
+process) guidance1 to enhance banks’ ability to identify and manage bank-wide risks. In 
+particular, the Committee emphasised that a sound risk management system should have 
+appropriate management information systems (MIS)2 at the business and bank-wide level. 
+The Basel Committee also included references to data aggregation as part of its guidance on 
+corporate governance.3 
+3. 
+Improving banks’ ability to aggregate risk data will improve their resolvability. For 
+global systemically important banks (G-SIBs) in particular, it is essential that resolution 
+authorities have access to aggregate risk data that complies with the FSB’s Key Attributes of 
+Effective Resolution Regimes for Financial Institutions 4 as well as the principles set out 
+below. For recovery, a robust data framework will help banks and supervisors anticipate 
+problems ahead. It will also improve the prospects of finding alternative options to restore 
+financial strength and viability when the firm comes under severe stress. For example, it 
+could improve the prospects of finding a suitable merger partner. 
+4. 
+Many in the banking industry5 recognise the benefits of improving their risk data 
+aggregation capabilities and are working towards this goal. They see the improvements in 
+terms of strengthening the capability and the status of the risk function to make judgements. 
+This leads to gains in efficiency, reduced probability of losses and enhanced strategic 
+decision-making, and ultimately increased profitability. 
+5. 
+Supervisors observe that making improvements in risk data aggregation capabilities 
+and risk reporting practices remains a challenge for banks, and supervisors would like to see 
+1 
+Basel Committee, Enhancements to the Basel II framework (July 2009) at www.bis.org/publ/bcbs158.pdf. 
+2 
+MIS in this context refers to risk management information. 
+3 
+Basel 
+Committee, 
+Principles 
+for 
+enhancing 
+corporate 
+governance 
+(October 
+2010) 
+at 
+www.bis.org/publ/bcbs176.pdf. 
+4  Financial Stability Board, Key Attributes of Effective Resolution Regimes for Financial Institutions (October 
+2011) at www.financialstabilityboard.org/publications/r_111104dd.pdf. 
+5 
+See Institute of International Finance report, Risk IT and Operations: Strengthening capabilities (June 2011). 
+more progress, in particular, at G-SIBs. Moreover, as the memories of the crisis fade over 
+time, there is a danger that the enhancement of banks’ capabilities in these areas may 
+receive a slower-track treatment. This is because IT systems, data and reporting processes 
+require significant investments of financial and human resources with benefits that may only 
+be realised over the long-term. 
+6. 
+The Financial Stability Board (FSB) has several international initiatives underway to 
+ensure continued progress is made in strengthening firms’ risk data aggregation capabilities 
+and risk reporting practices, which is essential to support financial stability. These include: 
+• 
+The development of the Principles for effective risk data aggregation and risk 
+reporting included in this report. This work stems from a recommendation in the 
+FSB’s Progress report on implementing the recommendations on enhanced 
+supervision, issued on 4 November 2011: 
+ 
+“The FSB, in collaboration with the standard setters, will develop a set of 
+supervisory expectations to move firms’, particularly SIFIs, data aggregation 
+capabilities to a level where supervisors, firms, and other users (eg resolution 
+authorities) of the data are confident that the MIS reports accurately capture the 
+risks. A timeline should be set for all SIFIs to meet supervisory expectations; the 
+deadline for G-SIBs to meet these expectations should be the beginning of 2016, 
+which is the date when the added loss absorbency requirement begins to be phased 
+in for G-SIBs.” 
+• 
+The development of a new common data template for global systemically important 
+financial institutions (G-SIFIs) in order to address key information gaps identified 
+during 
+the 
+crisis, 
+such 
+as 
+bi-lateral 
+exposures 
+and 
+exposures 
+to 
+countries/sectors/instruments. This should provide the authorities with a stronger 
+framework for assessing potential systemic risks. 
+• 
+A public-private sector initiative to develop a Legal Entity Identifier (LEI) system. The 
+LEI system will identify unique parties to financial transactions across the globe and 
+is designed to be a key building block for improvements in the quality of financial 
+data across the globe. 
+7. 
+There are also other initiatives and requirements relating to data that will have to be 
+implemented in the following years. 6 The Committee considers that upgraded risk data 
+aggregation and risk reporting practices will allow banks to comply effectively with those 
+initiatives.  
+Definition 
+8. 
+For the purpose of this paper, the term “risk data aggregation” means defining, 
+gathering and processing risk data according to the bank’s risk reporting requirements to 
+6 
+For instance, data reporting requirements arising from Basel III and the Solvency II rules; recovery and 
+resolution plans; revisions to the supervisory reporting frameworks of financial reporting (FINREP) and 
+common reporting (COREP) as well as to the international financial reporting standards (IFRS) and to the 
+Foreign Account Tax Compliance Act (FATCA). 
+enable the bank to measure its performance against its risk tolerance/appetite.7 This includes 
+sorting, merging or breaking down sets of data. 
+Objectives 
+9. 
+This paper presents a set of principles to strengthen banks’ risk data aggregation 
+capabilities and internal risk reporting practices (the Principles). In turn, effective 
+implementation of the Principles is expected to enhance risk management and decision-
+making processes at banks.  
+ 10. 
+The adoption of these Principles will enable fundamental improvements to the 
+management of banks. The Principles are expected to support a bank’s efforts to: 
+• 
+Enhance the infrastructure for reporting key information, particularly that used by the 
+board and senior management to identify, monitor and manage risks; 
+• 
+Improve the decision-making process throughout the banking organisation; 
+• 
+Enhance the management of information across legal entities, while facilitating a 
+comprehensive assessment of risk exposures at the global consolidated level; 
+• 
+Reduce the probability and severity of losses resulting from risk management 
+weaknesses; 
+• 
+Improve the speed at which information is available and hence decisions can be 
+made; and 
+• 
+Improve the organisation’s quality of strategic planning and the ability to manage the 
+risk of new products and services. 
+11. 
+Strong risk management capabilities are an integral part of the franchise value of a 
+bank. Effective implementation of the Principles should increase the value of the bank. The 
+Committee believes that the long-term benefits of improved risk data aggregation capabilities 
+and risk reporting practices will outweigh the investment costs incurred by banks. 
+12. 
+For bank supervisors, these Principles will complement other efforts to improve the 
+intensity and effectiveness of bank supervision. For resolution authorities, improved risk data 
+aggregation should enable smoother bank resolution, thereby reducing the potential recourse 
+to taxpayers. 
+Scope and initial considerations 
+13. 
+These Principles are initially addressed to SIBs and apply at both the banking group 
+and on a solo basis. Common and clearly stated supervisory expectations regarding risk data 
+aggregation and risk reporting are necessary for these institutions. National supervisors may 
+7 
+“Risk appetite is the level and type of risk a firm is able and willing to assume in its exposures and business 
+activities, given its business objectives and obligations to stakeholders” as defined by the Senior Supervisors 
+Group report, Observations on Developments in Risk Appetite Frameworks and IT Infrastructure (December 
+2010). 
+nevertheless choose to apply the Principles to a wider range of banks, in a way that is 
+proportionate to the size, nature and complexity of these banks’ operations. 
+14. 
+Banks identified as G-SIBs by the FSB in November 20118 or November 20129 
+must meet these Principles by January 2016; G-SIBs designated in subsequent annual 
+updates will need to meet the Principles within three years of their designation.10 G-SIBs 
+subject to the 2016 timeline are expected to start making progress towards effectively 
+implementing the Principles from early 2013. National supervisors and the Basel Committee 
+will monitor and assess this progress in accordance with section V of this document. 
+15. 
+It is strongly suggested that national supervisors also apply these Principles to 
+banks identified as D-SIBs by their national supervisors three years after their designation as 
+D-SIBs.11 
+16. 
+The Principles and supervisory expectations contained in this paper apply to a 
+bank’s risk management data. This includes data that is critical to enabling the bank to 
+manage the risks it faces. Risk data and reports should provide management with the ability 
+to monitor and track risks relative to the bank’s risk tolerance/appetite. 
+17. 
+These Principles also apply to all key internal risk management models, including 
+but not limited to, Pillar 1 regulatory capital models (eg internal ratings-based approaches for 
+credit risk and advanced measurement approaches for operational risk), Pillar 2 capital 
+models and other key risk management models (eg value-at-risk). 
+18. 
+The Principles apply to a bank’s group risk management processes. However, 
+banks may also benefit from applying the Principles to other processes, such as financial and 
+operational processes, as well as supervisory reporting. 
+19. 
+All the Principles included in this paper are also applicable to processes that have 
+been outsourced to third parties. 
+20. 
+The Principles cover four closely related topics: 
+• 
+Overarching governance and infrastructure 
+• 
+Risk data aggregation capabilities 
+• 
+Risk reporting practices 
+• 
+Supervisory review, tools and cooperation 
+21. 
+Risk data aggregation capabilities and risk reporting practices are considered 
+separately in this paper, but they are clearly inter-linked and cannot exist in isolation. High 
+quality risk management reports rely on the existence of strong risk data aggregation 
+8 
+See the FSB, Policy Measures to Address to Systemically Important Financial Institutions (4 November 2011) 
+at www.financialstabilityboard.org/publications/r_111104bb.pdf 
+9 
+See the FSB, Update of group of global systemically important banks - G-SIBs (1 November 2012) at 
+www.financialstabilityboard.org/publications/r_121031ac.pdf 
+10 This is in line with the FSB’s Update of group of global systemically important banks - G-SIBs (1 November 
+2012). 
+11 See Basel Committee, A framework for dealing with domestic systemically important banks (October 2012) at 
+www.bis.org/publ/bcbs233.pdf 
+capabilities, and sound infrastructure and governance ensures the information flow from one 
+to the other.  
+22. 
+Banks should meet all risk data aggregation and risk reporting principles 
+simultaneously. However, trade-offs among Principles could be accepted in exceptional 
+circumstances such as urgent/ad hoc requests of information on new or unknown areas of 
+risk. There should be no trade-offs that materially impact risk management decisions. 
+Decision-makers at banks, in particular the board and senior management, should be aware 
+of these trade-offs and the limitations or shortcomings associated with them. 
+Supervisors expect banks to have policies and processes in place regarding the application 
+of trade-offs. Banks should be able to explain the impact of these trade-offs on their decision- 
+making process through qualitative reports and, to the extent possible, quantitative 
+measures. 
+23. 
+The concept of materiality used in this paper means that data and reports can 
+exceptionally exclude information only if it does not affect the decision-making process in a 
+bank (ie decision-makers, in particular the board and senior management, would have been 
+influenced by the omitted information or made a different judgment if the correct information 
+had been known).  
+In applying the materiality concept, banks will take into account considerations that go 
+beyond the number or size of the exposures not included, such as the type of risks involved, 
+or the evolving and dynamic nature of the banking business. Banks should also take into 
+account the potential future impact of the information excluded on the decision-making 
+process at their institutions. Supervisors expect banks to be able to explain the omissions of 
+information as a result of applying the materiality concept. 
+24.  
+Banks should develop forward looking reporting capabilities to provide early 
+warnings of any potential breaches of risk limits that may exceed the bank’s risk 
+tolerance/appetite. These risk reporting capabilities should also allow banks to conduct a 
+flexible and effective stress testing which is capable of providing forward-looking risk 
+assessments. Supervisors expect risk management reports to enable banks to anticipate 
+problems and provide a forward looking assessment of risk. 
+25.  
+Expert judgment may occasionally be applied to incomplete data to facilitate the 
+aggregation process, as well as the interpretation of results within the risk reporting 
+process. Reliance on expert judgment in place of complete and accurate data should occur 
+only on an exception basis, and should not materially impact the bank’s compliance with the 
+Principles. When expert judgment is applied, supervisors expect that the process be clearly 
+documented and transparent so as to allow for an independent review of the process 
+followed and the criteria used in the decision-making process. 
+I. 
+Overarching governance and infrastructure 
+26. 
+A bank should have in place a strong governance framework, risk data architecture 
+and IT infrastructure. These are preconditions to ensure compliance with the other Principles 
+included in this document. In particular, a bank’s board should oversee senior management’s 
+ownership of implementing all the risk data aggregation and risk reporting principles and the 
+strategy to meet them within a timeframe agreed with their supervisors. 
+Principle 1 
+Governance – A bank’s risk data aggregation capabilities and risk reporting practices 
+should be subject to strong governance arrangements consistent with other principles 
+and guidance established by the Basel Committee.12 
+27. 
+A bank’s board and senior management should promote the identification, 
+assessment and management of data quality risks as part of its overall risk management 
+framework. The framework should include agreed service level standards for both 
+outsourced and in-house risk data-related processes, and a firm’s policies on data 
+confidentiality, integrity and availability, as well as risk management policies. 
+28. 
+A bank’s board and senior management should review and approve the bank’s 
+group risk data aggregation and risk reporting framework and ensure that adequate 
+resources are deployed. 
+29. 
+A bank’s risk data aggregation capabilities and risk reporting practices should be: 
+(a) 
+Fully documented and subject to high standards of validation. This validation should 
+be independent and review the bank’s compliance with the Principles in this 
+document. The primary purpose of the independent validation is to ensure that a 
+bank's risk data aggregation and reporting processes are functioning as intended 
+and are appropriate for the bank's risk profile. Independent validation activities 
+should be aligned and integrated with the other independent review activities within 
+the bank's risk management program, 13 and encompass all components of the 
+bank's risk data aggregation and reporting processes. Common practices suggest 
+that the independent validation of risk data aggregation and risk reporting practices 
+should be conducted using staff with specific IT, data and reporting expertise.14 
+ (b) 
+Considered as part of any new initiatives, including acquisitions and/or divestitures, 
+new product development, as well as broader process and IT change initiatives. 
+When considering a material acquisition, a bank’s due diligence process should 
+assess the risk data aggregation capabilities and risk reporting practices of the 
+acquired entity, as well as the impact on its own risk data aggregation capabilities 
+and risk reporting practices. The impact on risk data aggregation should be 
+considered explicitly by the board and inform the decision to proceed. The bank 
+12 For instance, the Basel Committee’s Principles for Enhancing Corporate Governance (October 2010) and 
+Enhancements to the Basel II framework (July 2009). 
+13 In particular the so-called “second line of defence” within the bank’s internal control system. 
+14 Furthermore, validation should be conducted separately from audit work to ensure full adherence to the 
+distinction between the second and third lines of defence, within a bank's internal control system. See, inter 
+alia, Principles 2 and 13 in the Basel Committee’s Internal Audit Function in Banks (June 2012). 
+should establish a timeframe to integrate and align the acquired risk data 
+aggregation capabilities and risk reporting practices within its own framework. 
+(c) 
+Unaffected by the bank’s group structure. The group structure should not hinder risk 
+data aggregation capabilities at a consolidated level or at any relevant level within 
+the organisation (eg sub-consolidated level, jurisdiction of operation level). In 
+particular, risk data aggregation capabilities should be independent from the choices 
+a bank makes regarding its legal organisation and geographical presence.15 
+30. 
+A bank’s senior management should be fully aware of and understand the limitations 
+that prevent full risk data aggregation, in terms of coverage (eg risks not captured or 
+subsidiaries not included), in technical terms (eg model performance indicators or degree of 
+reliance on manual processes) or in legal terms (legal impediments to data sharing across 
+jurisdictions). Senior management should ensure that the bank’s IT strategy includes ways to 
+improve risk data aggregation capabilities and risk reporting practices and to remedy any 
+shortcomings against the Principles set forth in this document taking into account the 
+evolving needs of the business. Senior management should also identify data critical to risk 
+data aggregation and IT infrastructure initiatives through its strategic IT planning process, 
+and support these initiatives through the allocation of appropriate levels of financial and 
+human resources. 
+31. 
+A bank’s board is responsible for determining its own risk reporting requirements 
+and should be aware of limitations that prevent full risk data aggregation in the reports it 
+receives. The board should also be aware of the bank’s implementation of, and ongoing 
+compliance with the Principles set out in this document. 
+Principle 2 
+Data architecture and IT infrastructure – A bank should design, build and maintain 
+data architecture and IT infrastructure which fully supports its risk data aggregation 
+capabilities and risk reporting practices not only in normal times but also during times 
+of stress or crisis, while still meeting the other Principles. 
+32. 
+Risk data aggregation capabilities and risk reporting practices should be given direct 
+consideration as part of a bank’s business continuity planning processes and be subject to a 
+business impact analysis. 
+33. 
+A bank should establish integrated16 data taxonomies and architecture across the 
+banking group, which includes information on the characteristics of the data (metadata), as 
+well as use of single identifiers and/or unified naming conventions for data including legal 
+entities, counterparties, customers and accounts. 
+34. 
+Roles and responsibilities should be established as they relate to the ownership and 
+quality of risk data and information for both the business and IT functions. The owners 
+(business and IT functions), in partnership with risk managers, should ensure there are 
+adequate controls throughout the lifecycle of the data and for all aspects of the technology 
+infrastructure. The role of the business owner includes ensuring data is correctly entered by 
+15 While taking into account any legal impediments to sharing data across jurisdictions. 
+16 Banks do not necessarily need to have one data model; rather, there should be robust automated 
+reconciliation procedures where multiple models are in use. 
+the relevant front office unit, kept current and aligned with the data definitions, and also 
+ensuring that risk data aggregation capabilities and risk reporting practices are consistent 
+with firms’ policies. 
+II. 
+Risk data aggregation capabilities 
+35. 
+Banks should develop and maintain strong risk data aggregation capabilities to 
+ensure that risk management reports reflect the risks in a reliable way (ie meeting data 
+aggregation expectations is necessary to meet reporting expectations). Compliance with 
+these Principles should not be at the expense of each other. These risk data aggregation 
+capabilities should meet all Principles below simultaneously in accordance with paragraph 22 
+of this document. 
+Principle 3 
+Accuracy and Integrity – A bank should be able to generate accurate and reliable risk 
+data to meet normal and stress/crisis reporting accuracy requirements. Data should 
+be aggregated on a largely automated basis so as to minimise the probability of 
+errors. 
+36. 
+A bank should aggregate risk data in a way that is accurate and reliable. 
+(a) 
+Controls surrounding risk data should be as robust as those applicable to 
+accounting data. 
+(b) 
+Where a bank relies on manual processes and desktop applications (eg 
+spreadsheets, databases) and has specific risk units that use these applications for 
+software development, it should have effective mitigants in place (eg end-user 
+computing policies and procedures) and other effective controls that are consistently 
+applied across the bank’s processes. 
+(c) 
+Risk data should be reconciled with bank’s sources, including accounting data 
+where appropriate, to ensure that the risk data is accurate.17 
+(d) 
+A bank should strive towards a single authoritative source for risk data per each type 
+of risk. 
+(e) 
+A bank’s risk personnel should have sufficient access to risk data to ensure they can 
+appropriately aggregate, validate and reconcile the data to risk reports. 
+37. 
+As a precondition, a bank should have a “dictionary” of the concepts used, such that 
+data is defined consistently across an organisation. 
+38. 
+There should be an appropriate balance between automated and manual systems. 
+Where professional judgements are required, human intervention may be appropriate. For 
+17 For the purposes of this paper, reconciliation means the process of comparing items or outcomes and 
+explaining the differences. 
+many other processes, a higher degree of automation is desirable to reduce the risk of 
+errors. 
+39. 
+Supervisors expect banks to document and explain all of their risk data aggregation 
+processes whether automated or manual (judgement based or otherwise). Documentation 
+should include an explanation of the appropriateness of any manual workarounds, a 
+description of their criticality to the accuracy of risk data aggregation and proposed actions to 
+reduce the impact. 
+40. 
+Supervisors expect banks to measure and monitor the accuracy of data and to 
+develop appropriate escalation channels and action plans to be in place to rectify poor data 
+quality.  
+Principle 4 
+Completeness – A bank should be able to capture and aggregate all material risk data 
+across the banking group. Data should be available by business line, legal entity, 
+asset type, industry, region and other groupings, as relevant for the risk in question, 
+that permit identifying and reporting risk exposures, concentrations and emerging 
+risks. 
+41. 
+A bank’s risk data aggregation capabilities should include all material risk 
+exposures, including those that are off-balance sheet. 
+42. 
+A banking organisation is not required to express all forms of risk in a common 
+metric or basis, but risk data aggregation capabilities should be the same regardless of the 
+choice of risk aggregation systems implemented. However, each system should make clear 
+the specific approach used to aggregate exposures for any given risk measure, in order to 
+allow the board and senior management to assess the results properly. 
+43. 
+Supervisors expect banks to produce aggregated risk data that is complete and to 
+measure and monitor the completeness of their risk data. Where risk data is not entirely 
+complete, the impact should not be critical to the bank’s ability to manage its risks effectively. 
+Supervisors expect banks’ data to be materially complete, with any exceptions identified and 
+explained. 
+Principle 5 
+Timeliness – A bank should be able to generate aggregate and up-to-date risk data in a 
+timely manner while also meeting the principles relating to accuracy and integrity, 
+completeness and adaptability. The precise timing will depend upon the nature and 
+potential volatility of the risk being measured as well as its criticality to the overall risk 
+profile of the bank. The precise timing will also depend on the bank-specific frequency 
+requirements for risk management reporting, under both normal and stress/crisis 
+situations, set based on the characteristics and overall risk profile of the bank. 
+44. 
+A bank’s risk data aggregation capabilities should ensure that it is able to produce 
+aggregate risk information on a timely basis to meet all risk management reporting 
+requirements. 
+45. 
+The Basel Committee acknowledges that different types of data will be required at 
+different speeds, depending on the type of risk, and that certain risk data may be needed 
+faster in a stress/crisis situation. Banks need to build their risk systems to be capable of 
+producing aggregated risk data rapidly during times of stress/crisis for all critical risks. 
+46. 
+Critical risks include but are not limited to: 
+(a) 
+The aggregated credit exposure to a large corporate borrower. By comparison, 
+groups of retail exposures may not change as critically in a short period of time but 
+may still include significant concentrations; 
+(b) 
+Counterparty credit risk exposures, including, for example, derivatives; 
+(c) 
+Trading exposures, positions, operating limits, and market concentrations by sector 
+and region data; 
+(d) 
+Liquidity risk indicators such as cash flows/settlements and funding; and 
+(e) 
+Operational risk indicators that are time-critical (eg systems availability, 
+unauthorised access). 
+47. 
+Supervisors will review that the bank specific frequency requirements, for both 
+normal and stress/crisis situations, generate aggregate and up-to-date risk data in a timely 
+manner. 
+Principle 6 
+Adaptability – A bank should be able to generate aggregate risk data to meet a broad 
+range of on-demand, ad hoc risk management reporting requests, including requests 
+during stress/crisis situations, requests due to changing internal needs and requests 
+to meet supervisory queries. 
+48. 
+A bank’s risk data aggregation capabilities should be flexible and adaptable to meet 
+ad hoc data requests, as needed, and to assess emerging risks. Adaptability will enable 
+banks to conduct better risk management, including forecasting information, as well as to 
+support stress testing and scenario analyses. 
+49. 
+Adaptability includes: 
+(a) 
+Data aggregation processes that are flexible and enable risk data to be aggregated 
+for assessment and quick decision-making; 
+(b) 
+Capabilities for data customisation to users’ needs (eg dashboards, key takeaways, 
+anomalies), to drill down as needed, and to produce quick summary reports; 
+(c) 
+Capabilities to incorporate new developments on the organisation of the business 
+and/or external factors that influence the bank’s risk profile; and 
+(d) 
+Capabilities to incorporate changes in the regulatory framework. 
+50. 
+Supervisors expect banks to be able to generate subsets of data based on 
+requested scenarios or resulting from economic events. For example, a bank should be able 
+to aggregate risk data quickly on country credit exposures18 as of a specified date based on 
+a list of countries, as well as industry credit exposures as of a specified date based on a list 
+of industry types across all business lines and geographic areas. 
+18  Including, for instance, sovereign, bank, corporate and retail exposures. 
+III. 
+Risk reporting practices 
+51. 
+Accurate, complete and timely data is a foundation for effective risk management. 
+However, data alone does not guarantee that the board and senior management will receive 
+appropriate information to make effective decisions about risk. To manage risk effectively, 
+the right information needs to be presented to the right people at the right time. Risk reports 
+based on risk data should be accurate, clear and complete. They should contain the correct 
+content and be presented to the appropriate decision-makers in a time that allows for an 
+appropriate response. To effectively achieve their objectives, risk reports should comply with 
+the following principles. Compliance with these principles should not be at the expense of 
+each other in accordance with paragraph 22 of this document. 
+Principle 7 
+Accuracy - Risk management reports should accurately and precisely convey 
+aggregated risk data and reflect risk in an exact manner. Reports should be reconciled 
+and validated. 
+52. 
+Risk management reports should be accurate and precise to ensure a bank’s board 
+and senior management can rely with confidence on the aggregated information to make 
+critical decisions about risk. 
+53. 
+To ensure the accuracy of the reports, a bank should maintain, at a minimum, the 
+following: 
+(a) 
+Defined requirements and processes to reconcile reports to risk data; 
+(b) 
+Automated and manual edit and reasonableness checks, including an inventory of 
+the validation rules that are applied to quantitative information. The inventory should 
+include explanations of the conventions used to describe any mathematical or 
+logical relationships that should be verified through these validations or checks; and 
+(c) 
+Integrated procedures for identifying, reporting and explaining data errors or 
+weaknesses in data integrity via exceptions reports. 
+54. 
+Approximations are an integral part of risk reporting and risk management. Results 
+from models, scenario analyses, and stress testing are examples of approximations that 
+provide critical information for managing risk. While the expectations for approximations may 
+be different than for other types of risk reporting, banks should follow the reporting principles 
+in this document and establish expectations for the reliability of approximations (accuracy, 
+timeliness, etc) to ensure that management can rely with confidence on the information to 
+make critical decisions about risk. This includes principles regarding data used to drive these 
+approximations. 
+55. 
+Supervisors expect that a bank’s senior management should establish accuracy and 
+precision requirements for both regular and stress/crisis reporting, including critical position 
+and exposure information. These requirements should reflect the criticality of decisions that 
+will be based on this information. 
+56. 
+Supervisors expect banks to consider accuracy requirements analogous to 
+accounting materiality. For example, if omission or misstatement could influence the risk 
+decisions of users, this may be considered material. A bank should be able to support the 
+rationale for accuracy requirements. Supervisors expect a bank to consider precision 
+requirements based on validation, testing or reconciliation processes and results. 
+Principle 8 
+Comprehensiveness - Risk management reports should cover all material risk areas 
+within the organisation. The depth and scope of these reports should be consistent 
+with the size and complexity of the bank’s operations and risk profile, as well as the 
+requirements of the recipients. 
+57. 
+Risk management reports should include exposure and position information for all 
+significant risk areas (eg credit risk, market risk, liquidity risk, operational risk) and all 
+significant components of those risk areas (eg single name, country and industry sector for 
+credit risk). Risk management reports should also cover risk-related measures (eg regulatory 
+and economic capital). 
+58. 
+Reports should identify emerging risk concentrations, provide information in the 
+context of limits and risk appetite/tolerance and propose recommendations for action where 
+appropriate. Risk reports should include the current status of measures agreed by the board 
+or senior management to reduce risk or deal with specific risk situations. This includes 
+providing the ability to monitor emerging trends through forward-looking forecasts and stress 
+tests. 
+59. 
+Supervisors expect banks to determine risk reporting requirements that best suit 
+their own business models and risk profiles. Supervisors will need to be satisfied with the 
+choices a bank makes in terms of risk coverage, analysis and interpretation, scalability and 
+comparability across group institutions. For example, an aggregated risk report should 
+include, but not be limited to, the following information: capital adequacy, regulatory capital, 
+capital and liquidity ratio projections, credit risk, market risk, operational risk, liquidity risk, 
+stress testing results, inter- and intra-risk concentrations, and funding positions and plans. 
+60. 
+Supervisors expect that risk management reports to the board and senior 
+management provide a forward-looking assessment of risk and should not just rely on 
+current and past data. The reports should contain forecasts or scenarios for key market 
+variables and the effects on the bank so as to inform the board and senior management of 
+the likely trajectory of the bank’s capital and risk profile in the future. 
+Principle 9 
+Clarity and usefulness - Risk management reports should communicate information in 
+a clear and concise manner. Reports should be easy to understand yet comprehensive 
+enough to facilitate informed decision-making. Reports should include meaningful 
+information tailored to the needs of the recipients. 
+61. 
+A bank’s risk reports should contribute to sound risk management and decision-
+making by their relevant recipients, including, in particular, the board and senior 
+management. Risk reports should ensure that information is meaningful and tailored to the 
+needs of the recipients. 
+62. 
+Reports should include an appropriate balance between risk data, analysis and 
+interpretation, and qualitative explanations. The balance of qualitative versus quantitative 
+information will vary at different levels within the organisation and will also depend on the 
+level of aggregation that is applied to the reports. Higher up in the organisation, more 
+aggregation is expected and therefore a greater degree of qualitative interpretation will be 
+necessary. 
+63. 
+Reporting policies and procedures should recognise the differing information needs 
+of the board, senior management, and the other levels of the organisation (for example risk 
+committees). 
+64. 
+As one of the key recipients of risk management reports, the bank’s board is 
+responsible for determining its own risk reporting requirements and complying with its 
+obligations to shareholders and other relevant stakeholders. The board should ensure that it 
+is asking for and receiving relevant information that will allow it to fulfil its governance 
+mandate relating to the bank and the risks to which it is exposed. This will allow the board to 
+ensure it is operating within its risk tolerance/appetite. 
+65. 
+The board should alert senior management when risk reports do not meet its 
+requirements and do not provide the right level and type of information to set and monitor 
+adherence to the bank’s risk tolerance/appetite. The board should indicate whether it is 
+receiving the right balance of detail and quantitative versus qualitative information. 
+66. 
+Senior management is also a key recipient of risk reports and it is responsible for 
+determining its own risk reporting requirements. Senior management should ensure that it is 
+receiving relevant information that will allow it to fulfil its management mandate relative to the 
+bank and the risks to which it is exposed. 
+67. 
+A bank should develop an inventory and classification of risk data items which 
+includes a reference to the concepts used to elaborate the reports. 
+68. 
+Supervisors expect that reports will be clear and useful. Reports should reflect an 
+appropriate balance between detailed data, qualitative discussion, explanation and 
+recommended conclusions. Interpretation and explanations of the data, including observed 
+trends, should be clear. 
+69. 
+Supervisors expect a bank to confirm periodically with recipients that the information 
+aggregated and reported is relevant and appropriate, in terms of both amount and quality, to 
+the governance and decision-making process. 
+Principle 10 
+Frequency – The board and senior management (or other recipients as appropriate) 
+should set the frequency of risk management report production and distribution. 
+Frequency requirements should reflect the needs of the recipients, the nature of the 
+risk reported, and the speed, at which the risk can change, as well as the importance 
+of reports in contributing to sound risk management and effective and efficient 
+decision-making across the bank. The frequency of reports should be increased 
+during times of stress/crisis. 
+70. 
+The frequency of risk reports will vary according to the type of risk, purpose and 
+recipients. A bank should assess periodically the purpose of each report and set 
+requirements for how quickly the reports need to be produced in both normal and 
+stress/crisis situations. A bank should routinely test its ability to produce accurate reports 
+within established timeframes, particularly in stress/crisis situations. 
+71. 
+Supervisors expect that in times of stress/crisis all relevant and critical credit, market 
+and liquidity position/exposure reports are available within a very short period of time to react 
+effectively to evolving risks. Some position/exposure information may be needed immediately 
+(intraday) to allow for timely and effective reactions. 
+Principle 11 
+Distribution - Risk management reports should be distributed to the relevant parties 
+while ensuring confidentiality is maintained. 
+72. 
+Procedures should be in place to allow for rapid collection and analysis of risk data 
+and timely dissemination of reports to all appropriate recipients. This should be balanced with 
+the need to ensure confidentiality as appropriate. 
+73. 
+Supervisors expect a bank to confirm periodically that the relevant recipients receive 
+timely reports. 
+IV. 
+Supervisory review, tools and cooperation 
+74. 
+Supervisors will have an important role to play in monitoring and providing 
+incentives for a bank’s implementation of, and ongoing compliance with the Principles. They 
+should also review compliance with the Principles across banks to determine whether the 
+Principles themselves are achieving their desired outcome and whether further 
+enhancements are required. 
+Principle 12 
+Review - Supervisors should periodically review and evaluate a bank’s compliance 
+with the eleven Principles above. 
+75. 
+Supervisors should review a bank’s compliance with the Principles in the preceding 
+sections. Reviews should be incorporated into the regular programme of supervisory reviews 
+and may be supplemented by thematic reviews covering multiple banks with respect to a 
+single or selected issue. Supervisors may test a bank’s compliance with the Principles 
+through occasional requests for information to be provided on selected risk issues (for 
+example, exposures to certain risk factors) within short deadlines, thereby testing the 
+capacity of a bank to aggregate risk data rapidly and produce risk reports. Supervisors 
+should have access to the appropriate reports to be able to perform this review. 
+76. 
+Supervisors should draw on reviews conducted by the internal or external auditors 
+to inform their assessments of compliance with the Principles. Supervisors may require work 
+to be carried out by a bank’s internal audit functions or by experts independent from the 
+bank. Supervisors must have access to all appropriate documents such as internal validation 
+and audit reports, and should be able to meet with and discuss risk data aggregation 
+capabilities with the external auditors or independent experts from the bank, when 
+appropriate. 
+77. 
+Supervisors should test a bank’s capabilities to aggregate data and produce reports 
+in both stress/crisis and steady-state environments, including sudden sharp increases in 
+business volumes. 
+Principle 13 
+Remedial actions and supervisory measures - Supervisors should have and use the 
+appropriate tools and resources to require effective and timely remedial action by a 
+bank to address deficiencies in its risk data aggregation capabilities and risk reporting 
+practices. Supervisors should have the ability to use a range of tools, including 
+Pillar 2. 
+78. 
+Supervisors should require effective and timely remedial action by a bank to address 
+deficiencies in its risk data aggregation capabilities and risk reporting practices and internal 
+controls. 
+79. 
+Supervisors should have a range of tools at their disposal to address material 
+deficiencies in a bank’s risk data aggregation and reporting capabilities. Such tools may 
+include, but are not limited to, requiring a bank to take remedial action; increasing the 
+intensity of supervision; requiring an independent review by a third party, such as external 
+auditors; and the possible use of capital add-ons as both a risk mitigant and incentive under 
+Pillar 2.19 
+80. 
+Supervisors should be able to set limits on a bank’s risks or the growth in their 
+activities where deficiencies in risk data aggregation and reporting are assessed as causing 
+significant weaknesses in risk management capabilities. 
+81. 
+For new business initiatives, supervisors may require that banks’ implementation 
+plans ensure that robust risk data aggregation is possible before allowing a new business 
+venture or acquisition to proceed. 
+82. 
+When a supervisor requires a bank to take remedial action, the supervisor should 
+set a timetable for completion of the action. Supervisors should have escalation procedures 
+in place to require more stringent or accelerated remedial action in the event that a bank 
+does not adequately address the deficiencies identified, or in the case that supervisors deem 
+further action is warranted. 
+Principle 14 
+Home/host cooperation - Supervisors should cooperate with relevant supervisors in 
+other jurisdictions regarding the supervision and review of the Principles, and the 
+implementation of any remedial action if necessary. 
+83. 
+Effective cooperation and appropriate information sharing between the home and 
+host supervisory authorities should contribute to the robustness of a bank’s risk management 
+practices across a bank’s operations in multiple jurisdictions. Wherever possible, supervisors 
+should avoid performing redundant and uncoordinated reviews related to risk data 
+aggregation and risk reporting. 
+84. 
+Cooperation can take the form of sharing of information within the constraints of 
+applicable laws, as well as discussion between supervisors on a bilateral or multilateral basis 
+(eg through colleges of supervisors), including, but not limited to, regular meetings. 
+Communication by conference call and email may be particularly useful in tracking required 
+remedial actions. Cooperation through colleges should be in line with the Basel Committee’s 
+Good practice principles on supervisory colleges.20 
+19 Basel Committee, Enhancements to the Basel II framework (July 2009). 
+20 Basel 
+Committee, 
+Good 
+practice 
+principles 
+on 
+supervisory 
+colleges 
+(October 
+2010) 
+www.bis.org/publ/bcbs177.pdf 
+85. 
+Supervisors should discuss their experiences regarding the quality of risk data 
+aggregation capabilities and risk reporting practices in different parts of the group. This 
+should include any impediments to risk data aggregation and risk reporting arising from 
+cross-border issues and also whether risk data is distributed appropriately across the group. 
+Such exchanges will enable supervisors to identify significant concerns at an early stage and 
+to respond promptly and effectively. 
+V. 
+Implementation timeline and transitional arrangements 
+86. 
+Supervisors expect that a bank’s data and IT infrastructures will be enhanced in the 
+coming years to ensure that its risk data aggregation capabilities and risk reporting practices 
+are sufficiently robust and flexible enough to address their potential needs in normal times 
+and particularly during times of stress/crisis. 
+87. 
+National banking supervisors will start discussing implementation of the Principles 
+with G-SIB’s senior management in early 2013. This will ensure that banks develop a 
+strategy to meet the Principles by 2016. 
+88. 
+In order for G-SIBs to meet the Principles in accordance with the 2016 timeline, 
+national banking supervisors will discuss banks’ analysis of risk data aggregation capabilities 
+with their senior management and agree to timelines for required improvements. Supervisory 
+approaches are likely to include requiring self-assessments by G-SIBs against these 
+expectations in early 2013, with the goal of closing significant gaps before 2016. Supervisors 
+may also engage technical experts to support their assessments of banks’ plans in respect of 
+the 2016 deadline.21 
+89. 
+The Basel Committee will track G-SIBs progress towards complying with the 
+Principles through its Standards Implementation Group (SIG) from 2013 onwards. This will 
+include any observations on the effectiveness of the Principles themselves and whether any 
+enhancements or other revisions of the Principles are necessary in order to achieve the 
+desired outcomes. The Basel Committee will share its findings with the FSB at least annually 
+starting from the end of 2013. 
+ 
+21 The Basel Committee recognises that under very specific and exceptional circumstances, national supervisors 
+might have to apply some degree of flexibility in implementing the 2016 deadline. For instance, in cases where 
+processes have been outsourced to third parties, there could be impacts on implementation timelines as some 
+outsourcing contracts may have terms extending beyond 2016. 
+Annex 1 
+Terms used in the document 
+Accuracy 
+Closeness of agreement between a measurement or record or 
+representation and the value to be measured, recorded or 
+represented. This definition applies to both risk data aggregation 
+and risk reports. 
+Adaptability 
+The ability of risk data aggregation capabilities to change (or be 
+changed) in response to changed circumstances (internal or 
+external). 
+Approximation 
+A result that is not necessarily exact, but acceptable for its given 
+purpose. 
+Clarity 
+The ability of risk reporting to be easily understood and free from 
+indistinctness or ambiguity. 
+Completeness 
+Availability of relevant risk data aggregated across all firm's 
+constituent units (eg legal entities, business lines, jurisdictions, etc) 
+Comprehensiveness 
+Extent to which risk reports include or deal with all risks relevant to 
+the firm. 
+Distribution 
+Ensuring that the adequate people or groups receive the 
+appropriate risk reports. 
+Frequency 
+The rate at which risk reports are produced over time. 
+Integrity 
+Freedom 
+of 
+risk 
+data 
+from 
+unauthorised 
+alteration 
+and 
+unauthorised 
+manipulation 
+that 
+compromise 
+its 
+accuracy, 
+completeness and reliability. 
+Manual workarounds 
+Employing human-based processes and tools to transfer, 
+manipulate or alter data used to be aggregated or reported. 
+Precision  
+Closeness of agreement between indications or measured quantity 
+values obtained by replicating measurements on the same or 
+similar objects under specified conditions. 
+Reconciliation 
+The process of comparing items or outcomes and explaining the 
+differences. 
+Risk tolerance/appetite 
+The level and type of risk a firm is able and willing to assume in its 
+exposures and business activities, given its business and 
+obligations to stakeholders. It is generally expressed through both 
+quantitative and qualitative means. 
+Risk Data aggregation 
+Defining, gathering, and processing risk data according to the 
+bank’s risk reporting requirements to enable the bank to measure 
+its performance against its risk tolerance/appetite. This includes 
+sorting, merging or breaking down sets of data. 
+Timeliness 
+Availability of aggregated risk data within such a timeframe as to 
+enable a bank to produce risk reports at an established frequency. 
+Validation 
+The process by which the correctness (or not) of inputs, 
+processing, and outputs is identified and quantified. 
+Annex 2 
+Summary of the Principles 
+The Principles cover four closely related sections: 
+(i) 
+Overarching governance and infrastructure 
+(ii) 
+Risk data aggregation capabilities 
+(iii) 
+Risk reporting practices 
+(iv) 
+Supervisory review, tools and cooperation 
+I. 
+Overarching governance and infrastructure 
+Principle 1 
+Governance – A bank’s risk data aggregation capabilities and risk reporting practices should 
+be subject to strong governance arrangements consistent with other principles and guidance 
+established by the Basel Committee.22 
+Principle 2 
+Data architecture and IT infrastructure – A bank should design, build and maintain data 
+architecture and IT infrastructure which fully supports its risk data aggregation capabilities 
+and risk reporting practices not only in normal times but also during times of stress or crisis, 
+while still meeting the other Principles. 
+II. 
+Risk data aggregation capabilities 
+Principle 3 
+Accuracy and Integrity – A bank should be able to generate accurate and reliable risk data to 
+meet normal and stress/crisis reporting accuracy requirements. Data should be aggregated 
+on a largely automated basis so as to minimise the probability of errors. 
+Principle 4 
+Completeness – A bank should be able to capture and aggregate all material risk data 
+across the banking group. Data should be available by business line, legal entity, asset type, 
+22 For instance, the Basel Committee’s Principles for Enhancing Corporate Governance (October 2010) and 
+Enhancements to the Basel II framework (July 2009). 
+industry, region and other groupings, as relevant for the risk in question, that permit 
+identifying and reporting risk exposures, concentrations and emerging risks. 
+Principle 5 
+Timeliness – A bank should be able to generate aggregate and up-to-date risk data in a 
+timely manner while also meeting the principles relating to accuracy and integrity, 
+completeness and adaptability. The precise timing will depend upon the nature and potential 
+volatility of the risk being measured as well as its criticality to the overall risk profile of the 
+bank. The precise timing will also depend on the bank-specific frequency requirements for 
+risk management reporting, under both normal and stress/crisis situations, set based on the 
+characteristics and overall risk profile of the bank. 
+Principle 6 
+Adaptability – A bank should be able to generate aggregate risk data to meet a broad range 
+of on-demand, ad hoc risk management reporting requests, including requests during 
+stress/crisis situations, requests due to changing internal needs and requests to meet 
+supervisory queries. 
+III. 
+Risk reporting practices 
+Principle 7 
+Accuracy - Risk management reports should accurately and precisely convey aggregated 
+risk data and reflect risk in an exact manner. Reports should be reconciled and validated. 
+Principle 8 
+Comprehensiveness - Risk management reports should cover all material risk areas within 
+the organisation. The depth and scope of these reports should be consistent with the size 
+and complexity of the bank’s operations and risk profile, as well as the requirements of the 
+recipients. 
+Principle 9 
+Clarity and usefulness - Risk management reports should communicate information in a clear 
+and concise manner. Reports should be easy to understand yet comprehensive enough to 
+facilitate informed decision-making. Reports should include an appropriate balance between 
+risk data, analysis and interpretation, and qualitative explanations. Reports should include 
+meaningful information tailored to the needs of the recipients. 
+Principle 10 
+Frequency - The board and senior management (or other recipients as appropriate) should 
+set the frequency of risk management report production and distribution. Frequency 
+requirements should reflect the needs of the recipients, the nature of the risk reported, and 
+the speed at which the risk can change, as well as the importance of reports in contributing 
+to sound risk management and effective and efficient decision-making across the bank. The 
+frequency of reports should be increased during times of stress/crisis. 
+Principle 11 
+Distribution - Risk management reports should be distributed to the relevant parties and 
+while ensuring confidentiality is maintained. 
+IV. 
+Supervisory review, tools and cooperation 
+Principle 12 
+Review - Supervisors should periodically review and evaluate a bank’s compliance with the 
+eleven Principles above. 
+Principle 13 
+Remedial actions and supervisory measures - Supervisors should have and use the 
+appropriate tools and resources to require effective and timely remedial action by a bank to 
+address deficiencies in its risk data aggregation capabilities and risk reporting practices. 
+Supervisors should have the ability to use a range of tools, including Pillar 2. 
+Principle 14 
+Home/host cooperation - Supervisors should cooperate with relevant supervisors in other 
+jurisdictions regarding the supervision and review of the Principles, and the implementation 
+of any remedial action if necessary. 

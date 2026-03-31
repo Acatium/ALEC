@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ALEC Report — {{ data.engagement.name }}</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #232733;
+    --border: #2e3343;
+    --text: #e0e0e6;
+    --text-dim: #8b8fa3;
+    --accent: #6c8cff;
+    --accent2: #34d399;
+    --accent3: #f59e42;
+    --accent4: #f472b6;
+    --accent5: #a78bfa;
+    --danger: #ef4444;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .header {
+    background: linear-gradient(135deg, #161a26 0%, #1c2235 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 32px;
+  }
+  .header h1 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+  }
+  .header .subtitle {
+    color: var(--text-dim);
+    font-size: 13px;
+    margin-top: 4px;
+  }
+  .header .problem {
+    color: var(--text-dim);
+    font-size: 14px;
+    margin-top: 8px;
+    max-width: 800px;
+  }
+  .stats-bar {
+    display: flex;
+    gap: 16px;
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 20px;
+    min-width: 140px;
+    flex: 1;
+  }
+  .stat-card .value {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -1px;
+  }
+  .stat-card .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+  .stat-card.accent .value { color: var(--accent); }
+  .stat-card.green .value { color: var(--accent2); }
+  .stat-card.orange .value { color: var(--accent3); }
+  .stat-card.pink .value { color: var(--accent4); }
+  .stat-card.purple .value { color: var(--accent5); }
+
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    grid-template-rows: auto auto;
+    gap: 0;
+    height: calc(100vh - 180px);
+  }
+  .graph-panel {
+    grid-row: 1 / 3;
+    grid-column: 1;
+    border-right: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .graph-panel .panel-label {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    z-index: 10;
+    background: var(--bg);
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+  .graph-panel svg { width: 100%; height: 100%; }
+  .side-panel {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .convergence-panel {
+    border-bottom: 1px solid var(--border);
+    padding: 16px;
+    min-height: 220px;
+    max-height: 260px;
+  }
+  .convergence-panel h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+  .detail-panel {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+  }
+  .detail-panel h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+  .detail-placeholder {
+    color: var(--text-dim);
+    font-size: 13px;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .entity-detail .entity-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .entity-detail .entity-type {
+    display: inline-block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--surface2);
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .entity-detail .obs-count {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-bottom: 16px;
+  }
+  .detail-section {
+    margin-bottom: 16px;
+  }
+  .detail-section h4 {
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--accent);
+  }
+  .rel-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .rel-item .rel-type {
+    font-size: 10px;
+    text-transform: uppercase;
+    background: var(--surface2);
+    padding: 2px 6px;
+    border-radius: 3px;
+    color: var(--accent3);
+    white-space: nowrap;
+  }
+  .rel-item .rel-target {
+    color: var(--accent);
+    cursor: pointer;
+  }
+  .rel-item .rel-target:hover { text-decoration: underline; }
+  .rel-item .rel-conf {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .obs-item {
+    padding: 8px;
+    margin-bottom: 6px;
+    background: var(--surface2);
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  .obs-item .obs-meta {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 4px;
+    color: var(--text-dim);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .obs-item .obs-meta .impact-expansion { color: var(--accent3); }
+  .obs-item .obs-meta .impact-reinforcement { color: var(--accent2); }
+  .obs-item .obs-meta .impact-challenge { color: var(--danger); }
+  .obs-item .obs-source {
+    font-size: 11px;
+    color: var(--accent5);
+    margin-top: 4px;
+  }
+
+  /* Cycle timeline at bottom */
+  .timeline-panel {
+    border-top: 1px solid var(--border);
+    padding: 16px 32px;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  .timeline-panel h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+  }
+  .cycle-group { margin-bottom: 16px; }
+  .cycle-group .cycle-header {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cycle-group .cycle-number {
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+  }
+  .cycle-group .cycle-ratio {
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+  .task-item {
+    padding: 6px 0 6px 20px;
+    border-left: 2px solid var(--border);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+  .task-item .task-directive { color: var(--text); }
+  .task-item .task-status {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .task-item .task-status.completed { color: var(--accent2); }
+  .task-item .task-status.failed { color: var(--danger); }
+  .task-item .task-result {
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-top: 2px;
+  }
+
+  /* Legend */
+  .legend {
+    position: absolute;
+    bottom: 12px;
+    left: 16px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  /* Tooltip */
+  .tooltip {
+    position: absolute;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 12px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s;
+    z-index: 100;
+    max-width: 250px;
+  }
+  .tooltip .tt-name { font-weight: 600; }
+  .tooltip .tt-type { color: var(--text-dim); font-size: 11px; }
+
+  /* Converged badge */
+  .converged-badge {
+    display: inline-block;
+    background: var(--accent2);
+    color: var(--bg);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-left: 12px;
+  }
+
+  .footer {
+    border-top: 1px solid var(--border);
+    padding: 12px 32px;
+    font-size: 11px;
+    color: var(--text-dim);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>
+    ALEC Discovery Report
+    {% if data.stats.converged %}<span class="converged-badge">Converged</span>{% endif %}
+  </h1>
+  <div class="subtitle">{{ data.engagement.name }} &middot; Generated {{ data.generated_at[:19] }}Z</div>
+  {% if data.engagement.problem_statement %}
+  <div class="problem">{{ data.engagement.problem_statement }}</div>
+  {% endif %}
+</div>
+
+<div class="stats-bar">
+  <div class="stat-card accent">
+    <div class="value">{{ data.stats.entity_count }}</div>
+    <div class="label">Entities</div>
+  </div>
+  <div class="stat-card green">
+    <div class="value">{{ data.stats.relationship_count }}</div>
+    <div class="label">Relationships</div>
+  </div>
+  <div class="stat-card orange">
+    <div class="value">{{ data.stats.observation_count }}</div>
+    <div class="label">Observations</div>
+  </div>
+  <div class="stat-card purple">
+    <div class="value">{{ data.stats.cycle_count }}</div>
+    <div class="label">Cycles</div>
+  </div>
+  <div class="stat-card pink">
+    <div class="value">{{ data.stats.source_count }}</div>
+    <div class="label">Sources</div>
+  </div>
+</div>
+
+<div class="main-grid">
+  <div class="graph-panel" id="graph-panel">
+    <div class="panel-label">Knowledge Graph</div>
+    <div class="legend" id="legend"></div>
+    <div class="tooltip" id="tooltip"></div>
+  </div>
+
+  <div class="side-panel">
+    <div class="convergence-panel">
+      <h3>Convergence</h3>
+      <canvas id="convergence-chart" height="160"></canvas>
+    </div>
+    <div class="detail-panel" id="detail-panel">
+      <h3>Entity Detail</h3>
+      <div class="detail-placeholder" id="detail-placeholder">
+        Click a node in the graph to inspect it
+      </div>
+      <div class="entity-detail" id="entity-detail" style="display:none"></div>
+    </div>
+  </div>
+</div>
+
+<div class="timeline-panel" id="timeline-panel">
+  <h3>Exploration Timeline</h3>
+  <div id="timeline-content"></div>
+</div>
+
+<div class="footer">
+  <span>ALEC v5 — Adaptive Learning &amp; Execution Core</span>
+  <span>Engagement {{ data.engagement.engagement_id[:12] }}&hellip;</span>
+</div>
+
+<script>
+// ─── Data ───────────────────────────────────────────────────
+const DATA = {{ data_json }};
+
+// ─── Color palette by entity type ───────────────────────────
+const TYPE_COLORS = {
+  service:    '#6c8cff',
+  database:   '#34d399',
+  team:       '#f59e42',
+  api:        '#f472b6',
+  policy:     '#a78bfa',
+  person:     '#fbbf24',
+  document:   '#60a5fa',
+  capability: '#f87171',
+  domain:     '#2dd4bf',
+  repository: '#c084fc',
+  schema:     '#fb923c',
+  process:    '#38bdf8',
+};
+const DEFAULT_COLOR = '#8b8fa3';
+function typeColor(t) { return TYPE_COLORS[t] || DEFAULT_COLOR; }
+
+// ─── Legend ──────────────────────────────────────────────────
+const usedTypes = [...new Set(DATA.graph.nodes.map(n => n.type))].sort();
+const legendEl = document.getElementById('legend');
+usedTypes.forEach(t => {
+  const item = document.createElement('div');
+  item.className = 'legend-item';
+  item.innerHTML = `<span class="legend-dot" style="background:${typeColor(t)}"></span>${t}`;
+  legendEl.appendChild(item);
+});
+
+// ─── Force Graph ────────────────────────────────────────────
+const graphPanel = document.getElementById('graph-panel');
+const width = graphPanel.clientWidth;
+const height = graphPanel.clientHeight;
+
+const svg = d3.select('#graph-panel')
+  .append('svg')
+  .attr('width', width)
+  .attr('height', height);
+
+// Zoom
+const g = svg.append('g');
+svg.call(d3.zoom()
+  .scaleExtent([0.2, 5])
+  .on('zoom', (e) => g.attr('transform', e.transform))
+);
+
+// Arrow markers for each relationship type
+const relTypes = [...new Set(DATA.graph.links.map(l => l.type))];
+svg.append('defs').selectAll('marker')
+  .data(relTypes)
+  .join('marker')
+    .attr('id', d => `arrow-${d}`)
+    .attr('viewBox', '0 -5 10 10')
+    .attr('refX', 20)
+    .attr('refY', 0)
+    .attr('markerWidth', 6)
+    .attr('markerHeight', 6)
+    .attr('orient', 'auto')
+  .append('path')
+    .attr('d', 'M0,-5L10,0L0,5')
+    .attr('fill', '#4a4f63');
+
+const simulation = d3.forceSimulation(DATA.graph.nodes)
+  .force('link', d3.forceLink(DATA.graph.links).id(d => d.id).distance(100))
+  .force('charge', d3.forceManyBody().strength(-300))
+  .force('center', d3.forceCenter(width / 2, height / 2))
+  .force('collision', d3.forceCollide().radius(d => nodeRadius(d) + 4));
+
+const link = g.append('g')
+  .selectAll('line')
+  .data(DATA.graph.links)
+  .join('line')
+    .attr('stroke', '#3a3f52')
+    .attr('stroke-width', d => Math.max(1, d.confidence * 2.5))
+    .attr('marker-end', d => `url(#arrow-${d.type})`);
+
+const linkLabel = g.append('g')
+  .selectAll('text')
+  .data(DATA.graph.links)
+  .join('text')
+    .attr('font-size', 8)
+    .attr('fill', '#5a5f73')
+    .attr('text-anchor', 'middle')
+    .text(d => d.type);
+
+function nodeRadius(d) {
+  return Math.max(6, Math.min(24, 4 + Math.sqrt(d.observation_count) * 3));
+}
+
+const node = g.append('g')
+  .selectAll('g')
+  .data(DATA.graph.nodes)
+  .join('g')
+    .style('cursor', 'pointer')
+    .call(d3.drag()
+      .on('start', dragStart)
+      .on('drag', dragging)
+      .on('end', dragEnd)
+    );
+
+node.append('circle')
+  .attr('r', nodeRadius)
+  .attr('fill', d => typeColor(d.type))
+  .attr('stroke', '#0f1117')
+  .attr('stroke-width', 1.5)
+  .attr('opacity', 0.9);
+
+node.append('text')
+  .attr('dy', d => nodeRadius(d) + 12)
+  .attr('text-anchor', 'middle')
+  .attr('font-size', 10)
+  .attr('fill', '#b0b4c8')
+  .text(d => d.name.length > 20 ? d.name.slice(0, 18) + '...' : d.name);
+
+// Tooltip
+const tooltip = document.getElementById('tooltip');
+node.on('mouseover', (e, d) => {
+  tooltip.style.opacity = 1;
+  tooltip.innerHTML = `<div class="tt-name">${d.name}</div><div class="tt-type">${d.type} &middot; ${d.observation_count} observations</div>`;
+}).on('mousemove', (e) => {
+  tooltip.style.left = (e.clientX + 12) + 'px';
+  tooltip.style.top = (e.clientY - 10) + 'px';
+}).on('mouseout', () => {
+  tooltip.style.opacity = 0;
+});
+
+// Click to show detail
+node.on('click', (e, d) => showEntityDetail(d));
+
+simulation.on('tick', () => {
+  link
+    .attr('x1', d => d.source.x)
+    .attr('y1', d => d.source.y)
+    .attr('x2', d => d.target.x)
+    .attr('y2', d => d.target.y);
+  linkLabel
+    .attr('x', d => (d.source.x + d.target.x) / 2)
+    .attr('y', d => (d.source.y + d.target.y) / 2);
+  node.attr('transform', d => `translate(${d.x},${d.y})`);
+});
+
+function dragStart(e, d) {
+  if (!e.active) simulation.alphaTarget(0.3).restart();
+  d.fx = d.x; d.fy = d.y;
+}
+function dragging(e, d) { d.fx = e.x; d.fy = e.y; }
+function dragEnd(e, d) {
+  if (!e.active) simulation.alphaTarget(0);
+  d.fx = null; d.fy = null;
+}
+
+// ─── Entity Detail Panel ────────────────────────────────────
+function showEntityDetail(d) {
+  const placeholder = document.getElementById('detail-placeholder');
+  const detailEl = document.getElementById('entity-detail');
+  placeholder.style.display = 'none';
+  detailEl.style.display = 'block';
+
+  // Highlight selected node
+  node.selectAll('circle')
+    .attr('opacity', n => n.id === d.id ? 1 : 0.3)
+    .attr('stroke', n => n.id === d.id ? '#fff' : '#0f1117')
+    .attr('stroke-width', n => n.id === d.id ? 2.5 : 1.5);
+  link.attr('opacity', l =>
+    (l.source.id === d.id || l.target.id === d.id) ? 1 : 0.1
+  );
+  linkLabel.attr('opacity', l =>
+    (l.source.id === d.id || l.target.id === d.id) ? 1 : 0
+  );
+
+  const entity = DATA.entities[d.id] || {};
+  const rels = DATA.relationships_by_entity[d.id] || [];
+  const obs = DATA.observations_by_entity[d.id] || [];
+
+  let html = `
+    <div class="entity-name">${d.name}</div>
+    <div class="entity-type" style="background:${typeColor(d.type)}22;color:${typeColor(d.type)}">${d.type}</div>
+    <div class="obs-count">${d.observation_count} observations</div>
+  `;
+
+  if (entity.aliases && entity.aliases.length > 0) {
+    html += `<div class="detail-section"><h4>Aliases</h4><div style="font-size:12px;color:var(--text-dim)">${entity.aliases.join(', ')}</div></div>`;
+  }
+
+  if (rels.length > 0) {
+    html += `<div class="detail-section"><h4>Relationships (${rels.length})</h4>`;
+    rels.forEach(r => {
+      const isSource = r.from_id === d.id;
+      const otherName = isSource ? r.to_name : r.from_name;
+      const otherId = isSource ? r.to_id : r.from_id;
+      const direction = isSource ? '&rarr;' : '&larr;';
+      html += `<div class="rel-item">
+        <span class="rel-type">${r.type}</span>
+        <span>${direction}</span>
+        <span class="rel-target" onclick="navigateToEntity('${otherId}')">${otherName}</span>
+        <span class="rel-conf">${(r.confidence * 100).toFixed(0)}%</span>
+      </div>`;
+    });
+    html += '</div>';
+  }
+
+  if (obs.length > 0) {
+    html += `<div class="detail-section"><h4>Evidence (${obs.length})</h4>`;
+    obs.slice(0, 10).forEach(o => {
+      const impactClass = `impact-${o.impact_type}`;
+      html += `<div class="obs-item">
+        <div class="obs-meta">
+          <span class="${impactClass}">${o.impact_type}</span>
+          <span>${o.observation_type}</span>
+        </div>
+        <div>${o.raw_text}</div>
+        <div class="obs-source">${o.source_ref}</div>
+      </div>`;
+    });
+    if (obs.length > 10) {
+      html += `<div style="font-size:11px;color:var(--text-dim);padding:4px 0">+ ${obs.length - 10} more observations</div>`;
+    }
+    html += '</div>';
+  }
+
+  detailEl.innerHTML = html;
+}
+
+function navigateToEntity(eid) {
+  const nodeData = DATA.graph.nodes.find(n => n.id === eid);
+  if (nodeData) showEntityDetail(nodeData);
+}
+
+// Reset on background click
+svg.on('click', (e) => {
+  if (e.target === svg.node()) {
+    document.getElementById('detail-placeholder').style.display = 'block';
+    document.getElementById('entity-detail').style.display = 'none';
+    node.selectAll('circle').attr('opacity', 0.9).attr('stroke', '#0f1117').attr('stroke-width', 1.5);
+    link.attr('opacity', 1);
+    linkLabel.attr('opacity', 1);
+  }
+});
+
+// ─── Convergence Chart ──────────────────────────────────────
+const convData = DATA.convergence;
+if (convData.length > 0) {
+  const ctx = document.getElementById('convergence-chart').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: convData.map(c => `Cycle ${c.cycle}`),
+      datasets: [
+        {
+          label: 'Convergence Ratio',
+          data: convData.map(c => c.ratio),
+          borderColor: '#6c8cff',
+          backgroundColor: 'rgba(108,140,255,0.1)',
+          fill: true,
+          tension: 0.3,
+          pointRadius: 4,
+          pointBackgroundColor: '#6c8cff',
+        },
+        {
+          label: 'Threshold (3.0)',
+          data: convData.map(() => 3.0),
+          borderColor: 'rgba(52,211,153,0.5)',
+          borderDash: [5, 5],
+          pointRadius: 0,
+          fill: false,
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: { color: '#8b8fa3', font: { size: 10 } },
+          position: 'bottom',
+        },
+        tooltip: {
+          callbacks: {
+            afterLabel: (ctx) => {
+              if (ctx.datasetIndex !== 0) return '';
+              const d = convData[ctx.dataIndex];
+              return `R:${d.reinforcement} E:${d.expansion} C:${d.challenge}`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#8b8fa3', font: { size: 10 } },
+          grid: { color: 'rgba(46,51,67,0.5)' },
+        },
+        y: {
+          beginAtZero: true,
+          ticks: { color: '#8b8fa3', font: { size: 10 } },
+          grid: { color: 'rgba(46,51,67,0.5)' },
+        }
+      }
+    }
+  });
+} else {
+  document.getElementById('convergence-chart').parentElement.innerHTML +=
+    '<div style="color:var(--text-dim);font-size:13px;text-align:center;padding:20px">No convergence data yet</div>';
+}
+
+// ─── Stacked bar chart for observation impacts per cycle ────
+// (embedded in convergence panel area)
+
+// ─── Timeline ───────────────────────────────────────────────
+const timelineEl = document.getElementById('timeline-content');
+if (DATA.tasks.length > 0) {
+  // Group tasks by cycle (approximate: use convergence data cycle count)
+  // Tasks are ordered by created_at, and we know how many cycles ran
+  const cycleCount = convData.length || 1;
+  const tasksPerCycle = Math.ceil(DATA.tasks.length / cycleCount);
+
+  let html = '';
+  for (let c = 0; c < cycleCount; c++) {
+    const cycleTasks = DATA.tasks.slice(c * tasksPerCycle, (c + 1) * tasksPerCycle);
+    if (cycleTasks.length === 0) continue;
+    const cd = convData[c];
+    const ratioStr = cd ? `ratio: ${cd.ratio.toFixed(2)} (R:${cd.reinforcement} E:${cd.expansion} C:${cd.challenge})` : '';
+
+    html += `<div class="cycle-group">
+      <div class="cycle-header">
+        <span class="cycle-number">Cycle ${c + 1}</span>
+        <span class="cycle-ratio">${ratioStr}</span>
+      </div>`;
+
+    cycleTasks.forEach(t => {
+      const statusClass = t.status === 'completed' ? 'completed' : (t.status === 'failed' ? 'failed' : '');
+      let resultStr = '';
+      if (t.result && t.result.entities_written !== undefined) {
+        resultStr = `${t.result.entities_written} entities, ${t.result.relationships_written} relationships, ${t.result.observations_written} observations`;
+      }
+      html += `<div class="task-item">
+        <div class="task-directive">${t.directive}</div>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:2px">
+          <span class="task-status ${statusClass}">${t.status}</span>
+          <span style="font-size:10px;color:var(--text-dim)">${t.source_type}:${t.source_ref}</span>
+          <span style="font-size:10px;color:var(--text-dim)">${t.max_scope}</span>
+        </div>
+        ${resultStr ? `<div class="task-result">${resultStr}</div>` : ''}
+      </div>`;
+    });
+    html += '</div>';
+  }
+  timelineEl.innerHTML = html;
+} else {
+  timelineEl.innerHTML = '<div style="color:var(--text-dim);font-size:13px">No tasks recorded</div>';
+}
+</script>
+</body>
+</html>

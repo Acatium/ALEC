@@ -1,0 +1,85 @@
+# Claude Code local settings (keep settings.json, ignore local overrides)
+.claude/settings.local.json
+.claude/plans/
+
+# Temporary session documentation (use /tmp instead)
+BUILD_REPORT.md
+HANDOFF.md
+NEXT_SESSION_PROMPT.md
+TODO.md
+NOTES.md
+SESSION_*.md
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+env/
+ENV/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.pyc
+dist/
+build/
+
+# DeepEval
+.deepeval/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Coverage
+coverage.json
+.coverage
+htmlcov/
+
+# Test artifacts
+test_reports/
+.hypothesis/
+
+# Backup files
+*.env.backup
+
+# Node (frontend and mcp-servers)
+**/node_modules/
+.npm/
+.yarn/
+*.tsbuildinfo
+
+# Docker
+.docker/
+
+# Temporary files
+*.tmp
+*~
+.*.swp
+
+# Benchmark datasets (download separately)
+datasets/
+
+# AppWorld data (downloaded separately)
+data/
+experiments/

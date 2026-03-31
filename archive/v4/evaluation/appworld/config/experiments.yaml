@@ -1,0 +1,97 @@
+# AppWorld Evaluation Experiment Configurations
+# See README.md for usage instructions
+#
+# NOTE: Learning is controlled via service toggles on /agents page.
+# For baseline tests: disable bullet-reflector, effectiveness-reflector, bullet-curator
+# For learning tests: enable all learning services
+
+experiments:
+  # Baseline: No ALEC learning, establishes raw performance
+  # Prerequisite: Disable learning services via /agents page
+  baseline:
+    description: "Baseline performance without ALEC learning system"
+    tasks: 100
+    seed: 42
+    timeout_seconds: 300
+    retry_on_failure: false
+
+  # Learning Curve: Measures improvement over sequential tasks
+  # Prerequisite: Enable learning services via /agents page
+  learning_curve:
+    description: "Track performance improvement as bullets accumulate"
+    tasks: 500
+    batch_size: 25
+    seed: 42
+    checkpoint_interval: 50
+    timeout_seconds: 300
+    retry_on_failure: true
+    max_retries: 2
+
+  # Bullet Evolution: Analyze which bullets emerge and persist
+  # Prerequisite: Enable learning services via /agents page
+  bullet_evolution:
+    description: "Analyze bullet emergence, persistence, and effectiveness"
+    tasks: 300
+    track_bullets: true
+    effectiveness_threshold: 0.6
+    seed: 42
+    timeout_seconds: 300
+    capture_bullet_snapshots: true
+    snapshot_interval: 25
+
+# Task filtering options (applied to all experiments unless overridden)
+task_defaults:
+  # Available apps in AppWorld
+  apps:
+    - amazon
+    - apple
+    - file_system
+    - gmail
+    - google_calendar
+    - google_maps
+    - phone
+    - spotify
+    - venmo
+
+  # Difficulty levels
+  difficulty_levels:
+    - easy
+    - medium
+    - hard
+
+  # Default filters (include all)
+  default_filter:
+    apps: null  # null means all apps
+    difficulty: null  # null means all difficulties
+
+# Metrics collection configuration
+metrics:
+  # What to track for each task
+  per_task:
+    - success
+    - tokens_used
+    - latency_ms
+    - error_type
+    - bullets_used
+    - turns_taken
+
+  # Aggregations to compute
+  aggregations:
+    - success_rate
+    - avg_tokens
+    - p50_latency
+    - p95_latency
+    - error_distribution
+    - bullet_effectiveness
+
+# Storage configuration
+storage:
+  # Results table in PostgreSQL
+  table: evaluation_results
+
+  # Additional bullet tracking table
+  bullet_tracking_table: evaluation_bullet_tracking
+
+  # Retain raw task logs
+  retain_logs: true
+  log_retention_days: 30

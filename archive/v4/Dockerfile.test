@@ -1,0 +1,37 @@
+# Test Runner Container for ALEC
+# Usage: docker-compose --profile test run --rm test-runner
+#
+# This container provides a consistent test environment with all dependencies
+# installed. Tests run against the same postgres/redis/kafka as production.
+
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install CPU-only PyTorch first (avoids 2GB+ CUDA download)
+RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+
+# Install other dependencies
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+# NOTE: Source code mounted via docker-compose volume (not copied)
+# This avoids mypy "source file found twice" errors
+
+# Set Python path
+ENV PYTHONPATH=/app
+ENV PYTHONUNBUFFERED=1
+
+# Create writable directories for tool caches
+RUN mkdir -p /tmp/ruff_cache /tmp/mypy_cache
+ENV RUFF_CACHE_DIR=/tmp/ruff_cache
+ENV MYPY_CACHE_DIR=/tmp/mypy_cache
+
+# Default: run all core tests
+CMD ["pytest", "core/", "-v", "--tb=short"]

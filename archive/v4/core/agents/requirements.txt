@@ -1,0 +1,30 @@
+# Agents Service Dependencies
+# LIBRARIAN and STRATEGIST - strategic intelligence for ALEC
+
+# Kafka
+aiokafka>=0.9.0
+
+# PostgreSQL
+asyncpg>=0.29.0
+
+# Redis (for caching analysis results)
+redis>=5.0.0
+
+# HTTP Client (for LLM synthesis in Phase 7)
+httpx>=0.25.0
+
+# Anthropic SDK (for LLM synthesis in Phase 7)
+anthropic>=0.39.0
+
+# Utilities
+python-dotenv>=1.0.0
+
+# Numerical (used by httpx/other deps)
+numpy>=1.24.0
+
+# Embeddings via LLM Gateway (no local model needed)
+# sentence-transformers removed - use core.common.embedding_client
+
+# Observability (v3)
+prometheus_client>=0.19.0
+structlog>=24.1.0
