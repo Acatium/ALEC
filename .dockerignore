@@ -1,0 +1,69 @@
+# Python
+venv/
+env/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+.next/
+.nuxt/
+dist/
+build/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Docs & Examples (not needed in production images)
+docs/
+examples/
+*.md
+!README.md
+
+# Tests (not needed in production images)
+tests/
+*.test.js
+*.spec.js
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+
+# Misc
+.env
+.env.*
+*.log
+*.sql
+*.sqlite
+*.db
+tmp/
+temp/
+.DS_Store
+Thumbs.db
