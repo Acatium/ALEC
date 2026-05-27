@@ -1,6 +1,12 @@
-# Claude Code local settings (keep settings.json, ignore local overrides)
-.claude/settings.local.json
-.claude/plans/
+# Claude Code local context — kept locally, NOT tracked in the public repo
+# (CLAUDE.md leaked a local /home path; .claude/settings.json leaked local paths)
+CLAUDE.md
+.claude/
+
+# Generated HTML reports (produced by alec.reports — regenerate, don't commit)
+/alec-report-preview.html
+/demo-report.html
+/regulatory-demo-report.html
 
 # Temporary session documentation (use /tmp instead)
 BUILD_REPORT.md

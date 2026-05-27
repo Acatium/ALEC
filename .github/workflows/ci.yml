@@ -1,271 +1,35 @@
 name: CI
 
+# Runs on the default branch (v5) and its PRs.
+# Scope: the offline-runnable unit suite (no DB, no network, fully mocked) + ruff.
+# Integration / component / smoke tiers need Postgres + a live LLM and are not run here.
 on:
   push:
-    branches: [master]
+    branches: [v5]
   pull_request:
-    branches: [master]
+    branches: [v5]
 
 jobs:
-  lint:
+  unit:
+    name: Unit tests + lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: '3.12'
+          cache: pip
 
-      - name: Install linters
-        run: pip install black isort ruff
-
-      - name: Check formatting with Black
-        run: black --check .
-
-      - name: Check imports with isort
-        run: isort --check-only .
-
-      - name: Lint with Ruff
-        run: ruff check .
-
-  typecheck:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
+      - name: Install package with dev extras
+        # The dev extras (hypothesis, aioresponses, httpx) are REQUIRED for test
+        # collection — a plain `pip install -e .` then pytest fails on 3 files.
         run: |
-          pip install mypy
-          # Install CPU-only PyTorch first (avoids 2GB+ CUDA download)
-          pip install torch --index-url https://download.pytorch.org/whl/cpu
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          pip install -e '.[dev]'
 
-      - name: Type check with MyPy
-        run: mypy core/ --ignore-missing-imports
+      - name: Lint (ruff)
+        run: ruff check alec/ tests/
 
-  # Unit tests (no database required)
-  test-unit:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
-          pip install pytest pytest-asyncio pytest-cov
-          # Install CPU-only PyTorch first (avoids 2GB+ CUDA download)
-          pip install torch --index-url https://download.pytorch.org/whl/cpu
-          pip install -r requirements.txt
-
-      - name: Run unit tests
-        run: pytest -v -m "not sql_validation and not db_integration and not pipeline" --ignore=core/learning_loop/tests/integration --cov=core --cov-report=xml
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v4
-        with:
-          file: coverage.xml
-          fail_ci_if_error: false
-
-  # SQL validation tests (requires PostgreSQL with schema)
-  test-sql:
-    runs-on: ubuntu-latest
-    services:
-      postgres:
-        image: pgvector/pgvector:0.8.0-pg17  # Pinned to match docker-compose.yml
-        env:
-          POSTGRES_USER: alec
-          POSTGRES_PASSWORD: alec-dev-password
-          POSTGRES_DB: alec
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
-          pip install pytest pytest-asyncio asyncpg
-          # Install CPU-only PyTorch first (avoids 2GB+ CUDA download)
-          pip install torch --index-url https://download.pytorch.org/whl/cpu
-          pip install -r requirements.txt
-
-      - name: Initialize database schema
-        env:
-          PGPASSWORD: alec-dev-password
-        run: |
-          # Apply schema migrations in order
-          for f in docker/init/*.sql; do
-            echo "Applying $f..."
-            psql -h localhost -U alec -d alec -f "$f"
-          done
-
-      - name: Run SQL validation tests
-        env:
-          TEST_DATABASE_URL: postgresql://alec:alec-dev-password@localhost:5432/alec
-        run: pytest -v -m sql_validation core/learning_loop/tests/integration/
-
-  # Database integration tests (requires PostgreSQL + Redis)
-  test-integration:
-    runs-on: ubuntu-latest
-    needs: [test-unit, test-sql]  # Only run after unit and SQL tests pass
-    services:
-      postgres:
-        image: pgvector/pgvector:0.8.0-pg17  # Pinned to match docker-compose.yml
-        env:
-          POSTGRES_USER: alec
-          POSTGRES_PASSWORD: alec-dev-password
-          POSTGRES_DB: alec
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-      redis:
-        image: redis:7-alpine  # Match docker-compose.yml
-        ports:
-          - 6379:6379
-        options: >-
-          --health-cmd "redis-cli ping"
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
-          pip install pytest pytest-asyncio asyncpg
-          # Install CPU-only PyTorch first (avoids 2GB+ CUDA download)
-          pip install torch --index-url https://download.pytorch.org/whl/cpu
-          pip install -r requirements.txt
-
-      - name: Initialize database schema
-        env:
-          PGPASSWORD: alec-dev-password
-        run: |
-          for f in docker/init/*.sql; do
-            echo "Applying $f..."
-            psql -h localhost -U alec -d alec -f "$f"
-          done
-
-      - name: Run integration tests
-        env:
-          TEST_DATABASE_URL: postgresql://alec:alec-dev-password@localhost:5432/alec
-          DATABASE_URL: postgresql://alec:alec-dev-password@localhost:5432/alec
-          REDIS_URL: redis://localhost:6379
-        run: pytest -v -m db_integration core/learning_loop/tests/integration/ core/agents/tests/integration/
-
-  # Security scanning (runs in parallel with tests)
-  security:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Install security tools
-        run: pip install bandit safety
-
-      - name: Run Bandit security scan
-        run: bandit -r core/ -ll -x "**/tests/**" --format json --output bandit-report.json || true
-
-      - name: Check for high-severity issues
-        run: |
-          # Fail only on high-severity issues (exit code 0 means issues found)
-          bandit -r core/ -ll -x "**/tests/**" --severity-level high
-
-      - name: Check dependency vulnerabilities
-        run: safety check --full-report || echo "::warning::Vulnerable dependencies found"
-        continue-on-error: true  # Don't fail CI, just warn
-
-  # E2E tests (runs against main docker-compose - master only)
-  test-e2e:
-    runs-on: ubuntu-latest
-    needs: [test-integration]  # Only run after integration tests pass
-    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Start dev environment
-        run: docker-compose up -d --build --quiet-pull
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-
-      - name: Wait for services to be healthy
-        run: |
-          echo "Waiting for services to start..."
-          timeout 180 bash -c '
-            while true; do
-              healthy=$(docker-compose ps --format json | grep -c "healthy" || echo "0")
-              if [ "$healthy" -ge 2 ]; then
-                echo "Services are healthy"
-                break
-              fi
-              echo "Waiting... ($healthy healthy)"
-              sleep 10
-            done
-          '
-
-      - name: Install E2E test dependencies
-        run: pip install -r e2e/requirements.txt
-
-      - name: Run E2E tests
-        run: pytest -m e2e e2e/tests/ -v --tb=short
-        env:
-          DATABASE_URL: postgresql://alec:alec-dev-password@localhost:5432/alec
-          REDIS_URL: redis://localhost:6379/0
-          KAFKA_BOOTSTRAP_SERVERS: localhost:9092
-          SESSION_URL: http://localhost:8008
-
-      - name: Collect logs on failure
-        if: failure()
-        run: |
-          docker-compose logs > e2e-logs.txt
-          echo "=== Service Status ===" >> e2e-logs.txt
-          docker-compose ps >> e2e-logs.txt
-
-      - name: Upload logs on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: e2e-logs
-          path: e2e-logs.txt
-          retention-days: 7
-
-      - name: Teardown
-        if: always()
-        run: docker-compose down -v
+      - name: Unit tests
+        run: pytest tests/unit -v
