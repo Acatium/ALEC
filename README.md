@@ -185,4 +185,4 @@ Key variables: `ALEC_ANTHROPIC_API_KEY`, `ALEC_DATABASE_URL`, `ALEC_DEFAULT_MODE
 
 ## License
 
-Proprietary. All rights reserved.
+[Apache License 2.0](LICENSE)
