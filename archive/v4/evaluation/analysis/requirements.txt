@@ -1,3 +1,0 @@
-# Statistical analysis dependencies
-# Note: numpy and pytest are already in main requirements.txt
-scipy>=1.10.0
